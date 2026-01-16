@@ -1,0 +1,36 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-eth {
+    background: rgba(98, 126, 234, 0.15);
+    color: #627eea;
+}
+
+.badge-btc {
+    background: rgba(247, 147, 26, 0.15);
+    color: #f7931a;
+}
+
+.badge-success,
+.badge-confirmed {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+}
+
+.badge-pending {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+}
+
+.badge-failed,
+.badge-orphaned {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--accent-red);
+}

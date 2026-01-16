@@ -1,0 +1,27 @@
+{
+    "name": "btc-eth-indexer-backend",
+    "version": "1.0.0",
+    "description": "Production-grade BTC & ETH blockchain indexer backend",
+    "main": "src/app.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "node --watch src/app.js",
+        "indexer:eth": "node src/indexers/ethIndexer.js",
+        "indexer:btc": "node src/indexers/btcIndexer.js",
+        "worker": "node src/workers/indexerWorker.js",
+        "cron": "node src/workers/cronJobs.js",
+        "db:migrate": "psql -d blockchain_indexer -f database/schema.sql",
+        "test": "node --test"
+    },
+    "dependencies": {
+        "ethers": "^6.9.0",
+        "pg": "^8.11.3",
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "node-cron": "^3.0.3",
+        "winston": "^3.11.0",
+        "express-validator": "^7.0.1"
+    }
+}

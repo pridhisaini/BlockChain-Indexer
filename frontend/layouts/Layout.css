@@ -1,0 +1,30 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-container {
+    display: flex;
+    flex: 1;
+}
+
+.layout-main {
+    flex: 1;
+    min-height: calc(100vh - 69px);
+    overflow-y: auto;
+    background: var(--bg-primary);
+}
+
+.layout-main::-webkit-scrollbar {
+    width: 8px;
+}
+
+.layout-main::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.layout-main::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}

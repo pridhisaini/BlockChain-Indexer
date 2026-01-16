@@ -1,0 +1,298 @@
+.transactions-page {
+    padding: 24px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+    border-color: var(--accent-purple);
+}
+
+.filter-btn.active {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+}
+
+.badge {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-eth {
+    background: rgba(98, 126, 234, 0.15);
+    color: #627eea;
+}
+
+.badge-btc {
+    background: rgba(247, 147, 26, 0.15);
+    color: #f7931a;
+}
+
+.badge-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+}
+
+.badge-pending {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+}
+
+.badge-failed {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--accent-red);
+}
+
+/* ==========================================
+   TRANSACTION DETAILS STYLES - Premium Design
+   ========================================== */
+
+.transaction-details {
+    padding: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 28px;
+    backdrop-filter: blur(8px);
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%);
+    border-color: var(--accent-purple);
+    transform: translateX(-4px);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
+.details-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.details-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 120px;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+.details-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.details-header .badge {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.details-card {
+    background: linear-gradient(135deg, rgba(26, 26, 37, 0.9) 0%, rgba(19, 19, 26, 0.95) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+.detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.2s ease;
+}
+
+.detail-row:hover {
+    background: rgba(139, 92, 246, 0.03);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row:first-child {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%);
+}
+
+@media (min-width: 768px) {
+    .detail-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+    }
+}
+
+.detail-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    min-width: 160px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    word-break: break-all;
+    font-family: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+    line-height: 1.6;
+}
+
+.detail-value a {
+    color: var(--accent-purple);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.detail-value a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-purple);
+    transition: width 0.2s ease;
+}
+
+.detail-value a:hover {
+    color: #a78bfa;
+}
+
+.detail-value a:hover::after {
+    width: 100%;
+}
+
+.hash-full,
+.address-full {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.value-highlight {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.badge-confirmed {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.15) 100%);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.15) 100%);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-pending {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.15) 100%);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.badge-failed {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(248, 113, 113, 0.15) 100%);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Status Icon Enhancement */
+.details-card .badge {
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+}

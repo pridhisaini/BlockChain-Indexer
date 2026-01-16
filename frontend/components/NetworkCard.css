@@ -1,0 +1,117 @@
+.network-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.network-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.network-card.eth::before {
+    background: var(--gradient-eth);
+}
+
+.network-card.btc::before {
+    background: var(--gradient-btc);
+}
+
+.network-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: var(--border-glow);
+}
+
+.network-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.network-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: var(--radius-md);
+}
+
+.network-card.eth .network-icon {
+    background: var(--gradient-eth);
+}
+
+.network-card.btc .network-icon {
+    background: var(--gradient-btc);
+}
+
+.network-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.network-info .symbol {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.sync-status {
+    margin-left: auto;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.sync-status.syncing {
+    background: rgba(6, 182, 212, 0.15);
+    color: var(--accent-cyan);
+}
+
+.sync-status.idle {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--accent-green);
+}
+
+.network-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.network-stats .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
