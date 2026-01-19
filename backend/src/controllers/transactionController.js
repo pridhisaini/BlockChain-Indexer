@@ -17,8 +17,8 @@ export async function getTransactions(req, res) {
     try {
         const { network, address, page = 1, limit = 20 } = req.query;
 
-        const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 20));
 
         const { transactions, total } = await transactionService.getTransactions({
             network,

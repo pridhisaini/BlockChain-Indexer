@@ -6,6 +6,7 @@
  */
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './layouts/Layout';
 import Dashboard from './pages/Dashboard';
 import NetworkOverview from './pages/NetworkOverview';
@@ -16,21 +17,24 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/ethereum" element={<NetworkOverview />} />
-          <Route path="/bitcoin" element={<NetworkOverview />} />
-          <Route path="/blocks" element={<Blocks />} />
-          <Route path="/blocks/:identifier" element={<Blocks />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/transactions/:hash" element={<Transactions />} />
-          <Route path="/address/:address" element={<AddressDetails />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/ethereum" element={<NetworkOverview />} />
+            <Route path="/bitcoin" element={<NetworkOverview />} />
+            <Route path="/blocks" element={<Blocks />} />
+            <Route path="/blocks/:identifier" element={<Blocks />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/transactions/:hash" element={<Transactions />} />
+            <Route path="/address/:address" element={<AddressDetails />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
 export default App;
+

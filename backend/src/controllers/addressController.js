@@ -8,6 +8,7 @@
 import addressService from '../services/addressService.js';
 import { successResponse, paginatedResponse, HttpErrors } from '../utils/responseHelpers.js';
 import logger from '../utils/logger.js';
+import config from '../config/index.js';
 
 /**
  * GET /addresses/:address
@@ -55,8 +56,8 @@ export async function getAddressTransactions(req, res) {
             return HttpErrors.badRequest(res, 'Address is required');
         }
 
-        const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 20));
 
         const { transactions, total } = await addressService.getAddressTransactions(
             address,
@@ -87,13 +88,13 @@ export async function getAddressUtxos(req, res) {
             return HttpErrors.badRequest(res, 'Address is required');
         }
 
-        const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 50));
 
-        // Bitcoin network ID is 2
+        // Use BTC network ID from config
         const { utxos, total } = await addressService.getAddressUtxos(
             address,
-            2, // BTC network ID
+            config.btc.networkId,
             pageNum,
             limitNum
         );

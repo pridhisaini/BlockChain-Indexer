@@ -9,7 +9,7 @@
 const config = {
     // API Configuration
     api: {
-        baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
+        baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3002/api',
         timeout: parseInt(import.meta.env.VITE_API_TIMEOUT) || 10000,
     },
 

@@ -19,8 +19,8 @@ export async function getBlocks(req, res) {
         const { network, page = 1, limit = 20 } = req.query;
 
         // Validate pagination params
-        const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 20));
 
         const { blocks, total } = await blockService.getBlocks({
             network,
@@ -81,8 +81,8 @@ export async function getBlockTransactions(req, res) {
             return HttpErrors.notFound(res, 'Block not found');
         }
 
-        const pageNum = Math.max(1, parseInt(page));
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+        const pageNum = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 20));
 
         const { transactions, total } = await blockService.getBlockTransactions(
             block.id,

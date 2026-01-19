@@ -8,6 +8,9 @@
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import compression from 'compression';
 import config, { validateConfig } from './config/index.js';
 import routes from './routes/index.js';
 import db from './database/connection.js';
@@ -21,20 +24,55 @@ validateConfig();
 const app = express();
 
 // ==========================================
-// MIDDLEWARE
+// SECURITY & PERFORMANCE MIDDLEWARE
 // ==========================================
 
-// CORS - allow frontend
-app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+// Security headers (helmet) - production only for stricter settings
+if (config.nodeEnv === 'production') {
+    app.use(helmet());
+} else {
+    // Relaxed helmet for development
+    app.use(helmet({
+        contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false,
+    }));
+}
+
+// Rate limiting - protect against DoS attacks
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: config.nodeEnv === 'production' ? 100 : 1000, // Limit requests per window
+    message: {
+        success: false,
+        error: {
+            message: 'Too many requests, please try again later',
+            code: 429,
+        },
+        timestamp: new Date().toISOString(),
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+app.use('/api', limiter);
+
+// Compression for responses
+app.use(compression());
+
+// CORS - configure based on environment
+const corsOptions = {
+    origin: config.nodeEnv === 'production'
+        ? process.env.FRONTEND_URL || 'https://your-production-domain.com'
+        : process.env.FRONTEND_URL || '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+    credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Parse JSON bodies
 app.use(express.json({ limit: '10mb' }));
 
-// Request logging
+// Request logging with IP tracking
 app.use((req, res, next) => {
     const start = Date.now();
     res.on('finish', () => {
@@ -42,6 +80,7 @@ app.use((req, res, next) => {
         logger.debug(`${req.method} ${req.path}`, {
             status: res.statusCode,
             duration: `${duration}ms`,
+            ip: req.ip,
         });
     });
     next();
