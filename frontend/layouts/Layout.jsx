@@ -7,11 +7,13 @@
 
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import VideoBackground from '../components/VideoBackground';
 import './Layout.css';
 
 function Layout({ children }) {
     return (
         <div className="layout">
+            <VideoBackground />
             <Header />
             <div className="layout-container">
                 <Sidebar />

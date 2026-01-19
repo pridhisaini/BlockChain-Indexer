@@ -7,13 +7,15 @@
 .layout-container {
     display: flex;
     flex: 1;
+    position: relative;
+    z-index: 2;
 }
 
 .layout-main {
     flex: 1;
     min-height: calc(100vh - 69px);
     overflow-y: auto;
-    background: var(--bg-primary);
+    background: transparent;
 }
 
 .layout-main::-webkit-scrollbar {
