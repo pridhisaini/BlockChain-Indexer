@@ -24,18 +24,24 @@ const config = {
         password: process.env.DB_PASSWORD || 'password',
     },
 
-    // Ethereum
+    // Ethereum - Using free public RPCs for real-time data
+    // Options: Cloudflare, Ankr, LlamaNodes, PublicNode
     eth: {
-        rpcUrl: process.env.ETH_RPC_URL || 'https://eth-mainnet.g.alchemy.com/v2/demo',
+        rpcUrl: process.env.ETH_RPC_URL || 'https://cloudflare-eth.com',
+        // Alternative free RPCs (uncomment to use):
+        // 'https://rpc.ankr.com/eth'
+        // 'https://eth.llamarpc.com'
+        // 'https://ethereum.publicnode.com'
         networkId: parseInt(process.env.ETH_NETWORK_ID) || 1,
         confirmations: parseInt(process.env.ETH_CONFIRMATIONS) || 12,
         batchSize: parseInt(process.env.ETH_BATCH_SIZE) || 10,
         cronInterval: process.env.ETH_CRON_INTERVAL || '*/15 * * * * *',
     },
 
-    // Bitcoin
+    // Bitcoin - Using Blockstream public API for real-time data
     btc: {
-        rpcUrl: process.env.BTC_RPC_URL || 'http://localhost:8332',
+        rpcUrl: process.env.BTC_RPC_URL || 'https://blockstream.info/api',
+        // Alternative: 'https://mempool.space/api'
         rpcUser: process.env.BTC_RPC_USER || 'rpcuser',
         rpcPassword: process.env.BTC_RPC_PASSWORD || 'rpcpassword',
         networkId: parseInt(process.env.BTC_NETWORK_ID) || 2,

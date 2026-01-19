@@ -105,6 +105,21 @@ function TransactionDetails({ hash }) {
                             <Link to={`/address/${tx.from_address}?network=${tx.network}`}>
                                 {tx.from_address}
                             </Link>
+                        ) : tx.inputs && tx.inputs.length > 0 ? (
+                            // For BTC, show input addresses
+                            <div className="btc-addresses">
+                                {tx.inputs.filter(i => i.prevout_address).slice(0, 3).map((input, idx) => (
+                                    <div key={idx}>
+                                        <Link to={`/address/${input.prevout_address}?network=${tx.network}`}>
+                                            {input.prevout_address}
+                                        </Link>
+                                        {input.prevout_value && ` (${(Number(input.prevout_value) / 1e8).toFixed(8)} BTC)`}
+                                    </div>
+                                ))}
+                                {tx.inputs.filter(i => i.prevout_address).length > 3 && (
+                                    <div>...and {tx.inputs.filter(i => i.prevout_address).length - 3} more</div>
+                                )}
+                            </div>
                         ) : 'Coinbase (Mining Reward)'}
                     </span>
                 </div>
@@ -116,7 +131,22 @@ function TransactionDetails({ hash }) {
                             <Link to={`/address/${tx.to_address}?network=${tx.network}`}>
                                 {tx.to_address}
                             </Link>
-                        ) : '-'}
+                        ) : tx.outputs && tx.outputs.length > 0 ? (
+                            // For BTC, show output addresses
+                            <div className="btc-addresses">
+                                {tx.outputs.filter(o => o.address).slice(0, 3).map((output, idx) => (
+                                    <div key={idx}>
+                                        <Link to={`/address/${output.address}?network=${tx.network}`}>
+                                            {output.address}
+                                        </Link>
+                                        {` (${(Number(output.value) / 1e8).toFixed(8)} BTC)`}
+                                    </div>
+                                ))}
+                                {tx.outputs.filter(o => o.address).length > 3 && (
+                                    <div>...and {tx.outputs.filter(o => o.address).length - 3} more</div>
+                                )}
+                            </div>
+                        ) : 'No outputs'}
                     </span>
                 </div>
 
@@ -142,7 +172,7 @@ function TransactionDetails({ hash }) {
                             <span className="detail-value">
                                 {tx.gas_used && tx.gas_price
                                     ? `${((Number(tx.gas_used) * Number(tx.gas_price)) / 1e18).toFixed(6)} ETH`
-                                    : '-'}
+                                    : '0 ETH'}
                             </span>
                         </div>
                         {tx.nonce !== undefined && (
@@ -152,6 +182,15 @@ function TransactionDetails({ hash }) {
                             </div>
                         )}
                     </>
+                )}
+
+                {!isEth && (
+                    <div className="detail-row">
+                        <span className="detail-label">Transaction Fee</span>
+                        <span className="detail-value">
+                            {tx.fee ? `${Number(tx.fee).toLocaleString()} satoshis (${(Number(tx.fee) / 1e8).toFixed(8)} BTC)` : '0 satoshis'}
+                        </span>
+                    </div>
                 )}
 
                 {tx.timestamp && (
@@ -239,8 +278,19 @@ function Transactions() {
             render: (v) => <Link to={`/transactions/${v}`}>{truncate(v)}</Link>
         },
         { key: 'from_address', label: 'From', className: 'address', render: (v) => v ? truncate(v) : 'Coinbase' },
-        { key: 'to_address', label: 'To', className: 'address', render: (v) => v ? truncate(v) : '-' },
+        { key: 'to_address', label: 'To', className: 'address', render: (v, row) => v ? truncate(v) : (row.network === 'bitcoin' ? 'Multiple (See Details)' : 'Contract Creation') },
         { key: 'value', label: 'Value', className: 'value', render: (v, row) => formatValue(v, row.symbol) },
+        {
+            key: 'gas_used', label: 'Gas/Fee', className: 'gas',
+            render: (v, row) => {
+                if (row.network === 'ethereum') {
+                    return v ? Number(v).toLocaleString() : '0';
+                } else {
+                    // For BTC, show fee in satoshis
+                    return row.fee ? `${Number(row.fee).toLocaleString()} sats` : '0 sats';
+                }
+            }
+        },
         {
             key: 'status', label: 'Status',
             render: (v) => <span className={`badge badge-${v?.toLowerCase()}`}>{v}</span>
