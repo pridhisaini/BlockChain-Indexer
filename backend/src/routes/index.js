@@ -9,6 +9,7 @@ import { Router } from 'express';
 import blockRoutes from './blockRoutes.js';
 import transactionRoutes from './transactionRoutes.js';
 import addressRoutes from './addressRoutes.js';
+import searchController from '../controllers/searchController.js';
 
 
 import statsController from '../controllers/statsController.js';
@@ -24,6 +25,7 @@ router.get('/networks', statsController.getNetworks);
 router.get('/networks/:network', statsController.getNetworkStats);
 
 // Search
+router.get('/search', searchController.search);
 
 
 // Resource routes

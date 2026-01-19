@@ -120,6 +120,14 @@ export async function getAddressUtxos(address, { page = 1, limit = 50 } = {}) {
     return fetchAPI(`/addresses/${address}/utxos?${params}`);
 }
 
+// ==========================================
+// SEARCH
+// ==========================================
+
+export async function search(query) {
+    return fetchAPI(`/search?q=${encodeURIComponent(query)}`);
+}
+
 export default {
     getStats,
     getNetworks,
@@ -133,4 +141,5 @@ export default {
     getAddress,
     getAddressTransactions,
     getAddressUtxos,
+    search,
 };

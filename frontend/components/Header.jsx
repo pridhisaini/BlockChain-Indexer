@@ -7,30 +7,48 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { search } from '../services/api';
 import './Header.css';
 
 function Header() {
     const [searchValue, setSearchValue] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
-        if (searchValue.trim()) {
-            // Detect if it's a hash (tx or block) or address
-            const query = searchValue.trim();
-            if (query.startsWith('0x') && query.length === 66) {
-                // Could be tx hash or block hash
-                navigate(`/transactions/${query}`);
-            } else if (query.length >= 26 && query.length <= 66) {
-                // Likely an address
-                navigate(`/address/${query}`);
-            } else if (/^\d+$/.test(query)) {
-                // Block height
-                navigate(`/blocks/${query}`);
+        const query = searchValue.trim();
+        if (!query) return;
+
+        setIsSearching(true);
+        setError(null);
+
+        try {
+            const result = await search(query);
+            if (result.success && result.data) {
+                const { type, id } = result.data;
+                setSearchValue('');
+                switch (type) {
+                    case 'block':
+                        navigate(`/blocks/${id}`);
+                        break;
+                    case 'transaction':
+                        navigate(`/transactions/${id}`);
+                        break;
+                    case 'address':
+                        navigate(`/address/${id}`);
+                        break;
+                    default:
+                        setError('Unknown result type');
+                }
             } else {
-                navigate(`/transactions/${query}`);
+                setError('No results found');
             }
-            setSearchValue('');
+        } catch (err) {
+            setError(err.message || 'Search failed');
+        } finally {
+            setIsSearching(false);
         }
     };
 
@@ -46,13 +64,17 @@ function Header() {
             <form className="search-form" onSubmit={handleSearch}>
                 <input
                     type="text"
-                    className="search-input"
-                    placeholder="Search by address, tx hash, or block..."
+                    className={`search-input ${error ? 'search-input-error' : ''}`}
+                    placeholder={error || "Search by address, tx hash, or block..."}
                     value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => {
+                        setSearchValue(e.target.value);
+                        if (error) setError(null);
+                    }}
+                    disabled={isSearching}
                 />
-                <button type="submit" className="search-btn">
-                    🔍
+                <button type="submit" className="search-btn" disabled={isSearching}>
+                    {isSearching ? '⏳' : '🔍'}
                 </button>
             </form>
 

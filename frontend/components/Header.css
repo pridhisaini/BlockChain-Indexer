@@ -117,3 +117,20 @@
         max-width: 100%;
     }
 }
+
+.search-input-error {
+    border-color: var(--accent-red, #ef4444);
+}
+
+.search-input-error::placeholder {
+    color: var(--accent-red, #ef4444);
+}
+
+.search-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.search-input:disabled {
+    opacity: 0.6;
+}
